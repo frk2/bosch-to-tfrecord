@@ -18,26 +18,6 @@ def clamp(value):
   return max(min(value, 0.99), 0.01)
 
 def dict_to_tf_example(data, force_dir=None):
-  """Convert XML derived dict to tf.Example proto.
-
-  Notice that this function normalizes the bounding box coordinates provided
-  by the raw data.
-
-  Args:
-    data: dict holding PASCAL XML fields for a single image (obtained by
-      running dataset_util.recursive_parse_xml_to_dict)
-    label_map_dict: A map from string label names to integers ids.
-    image_subdirectory: String specifying subdirectory within the
-      Pascal dataset directory holding the actual image data.
-    ignore_difficult_instances: Whether to skip difficult instances in the
-      dataset  (default: False).
-
-  Returns:
-    example: The converted tf.Example.
-
-  Raises:
-    ValueError: if the image pointed to by data['filename'] is not a valid JPEG
-  """
   img_path = data['path']
   if (force_dir):
     image = Path(img_path).name
@@ -126,15 +106,7 @@ def dict_to_tf_example(data, force_dir=None):
 
 def create_tf_record(output_filename,
                      yaml_file, forced_dir=None, max_len=None):
-  """Creates a TFRecord file from examples.
-
-  Args:
-    output_filename: Path to where output file is saved.
-    label_map_dict: The label map dictionary.
-    annotations_dir: Directory where annotation files are stored.
-    image_dir: Directory where image files are stored.
-    examples: Examples to parse and save to tf record.
-  """
+  
   images = yaml.load(open(yaml_file, 'rb').read())
   writer = tf.python_io.TFRecordWriter(output_filename)
   max = len(images)
@@ -148,10 +120,6 @@ def create_tf_record(output_filename,
       i -= 1
 
   writer.close()
-
-
-# TODO: Add test for pet/PASCAL main files.
-
 
 if __name__ == '__main__':
   create_tf_record('bosch-train.pb', 'combined_test_train.yaml')
