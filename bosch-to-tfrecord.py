@@ -189,5 +189,5 @@ def create_tf_record(output_filename,
 
 
 if __name__ == '__main__':
-  create_tf_record('bosch-train.pb', 'combined_test_train.yaml')
-  create_tf_record('bosch-test.pb', 'test.yaml', 'rgb/test/', 500)
+  create_tf_record('bosch-train.pb', 'combined_train.yaml')
+  # create_tf_record('bosch-test.pb', 'test.yaml', 'rgb/test/', 500)
